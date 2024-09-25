@@ -1,10 +1,9 @@
 import Image from "next/image";
-import { ReactNode } from "react";
+import { Manga } from "./types/manga";
 
-const getMangaList = async (): any[] => {
-  const res = await fetch('https://api.mangadex.org/manga')
+const getMangaList = async (): Manga[] => {
+  const res = await fetch(`https://api.mangadex.org/manga?includes[]=cover_art&includes[]=manga`)
   const mangaList = await res.json()
-  // console.log(mangaList.data)
   return mangaList.data
 }
 
@@ -12,9 +11,34 @@ const getMangaComponentMap = async () => {
   const mangaList = await getMangaList();
 
   return mangaList.map((manga, index) => {
+    console.log(manga.attributes)
+    const coverArtRelationships = manga.relationships.find(item => item.type === 'cover_art');
+    const fileName = coverArtRelationships?.attributes.fileName
     return (
-      <div key={manga.id + index}>
-        <p>{manga.attributes.title.en}</p>
+      <div
+        key={manga.id + index}
+        className='flex justify-center items-center align'
+      >
+        <div
+          className="basis-1/2 h-full max-h-100px"
+        >
+          <img className="" src={`https://uploads.mangadex.org/covers/${manga.id}/${fileName}.256.jpg`} ></img>
+        </div>
+        <div
+          className='basis-1/2 overflow-hidden'
+        >
+          <h1
+            className="text-2xl"
+          >
+            {manga.attributes.title.en || Object.values(manga.attributes.title)[0]}
+          </h1>
+          <p
+            className="text-ellipsis overflow-hidden ..."
+          >
+            {manga.attributes.description.en}
+          </p>
+
+        </div>
       </div>
     )
   })
