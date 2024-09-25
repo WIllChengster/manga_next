@@ -2,9 +2,9 @@ export type Chapter = {
   id: string
   type: 'chapter'
   attributes: {
-    volume: any,
+    volume: unknown,
     chapter: string
-    title: any,
+    title: unknown,
     translatedLanguage: string
     publishAt: string
     readableAt: string
