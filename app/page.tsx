@@ -3,14 +3,14 @@ import Link from "next/link"
 
 import { Manga } from "./types/manga";
 
-const getMangaList = async (): Manga[] => {
+const getMangaList = async ()=> {
   const res = await fetch(`https://api.mangadex.org/manga?includes[]=cover_art&includes[]=manga`)
   const mangaList = await res.json()
   return mangaList.data
 }
 
 const getMangaComponentMap = async () => {
-  const mangaList = await getMangaList();
+  const mangaList: Manga[] = await getMangaList();
 
   return mangaList.map((manga, index) => {
     const coverArtRelationships = manga.relationships.find(item => item.type === 'cover_art');

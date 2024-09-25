@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export type Manga = {
   id: string
@@ -33,7 +34,7 @@ export type Manga = {
 type mangaRelationship = {
   id: string
   type: 'author' | 'artist' | 'cover_art'
-  attributes: object
+  attributes: any | coverArt
 }
 
 type coverArt = {

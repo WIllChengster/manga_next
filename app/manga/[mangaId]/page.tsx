@@ -24,7 +24,7 @@ const Page = async ({params}: { params: { mangaId: string } }) => {
   const chapterComponentMap = chapters.map((item, index) => {
     return (
       <div
-        key={item.id}
+        key={item.id + index}
       >
         {item.attributes.chapter}
       </div>
