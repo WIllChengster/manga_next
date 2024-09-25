@@ -12,13 +12,14 @@ const getManga = async (mangaId: string) => {
 }
 
 const getChapters = async (mangaId: string) => {
-  const res = await fetch(`https://api.mangadex.org/manga/${mangaId}/feed`, {
+
+  const res = await fetch(`https://api.mangadex.org/manga/${mangaId}/feed?translatedLanguage[]=en&order[chapter]=asc
+    `, {
     headers: {
       'User-Agent': 'Browser'
     }
   })
   const resJson = await res.json()
-
   return resJson.data
 }
 
@@ -30,11 +31,12 @@ const Page = async ({params}: { params: { mangaId: string } }) => {
   const chapters: Chapter[] = await getChapters(mangaId)
 
   const chapterComponentMap = chapters.map((item, index) => {
+    console.log(item)
     return (
       <div
         key={item.id + index}
       >
-        {item.attributes.chapter}
+        {item.attributes.chapter} {item.attributes.title}
       </div>
     )
   })
