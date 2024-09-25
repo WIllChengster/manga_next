@@ -4,7 +4,11 @@ import Link from "next/link"
 import { Manga } from "./types/manga";
 
 const getMangaList = async ()=> {
-  const res = await fetch(`https://api.mangadex.org/manga?includes[]=cover_art&includes[]=manga`)
+  const res = await fetch(`https://api.mangadex.org/manga?includes[]=cover_art&includes[]=manga`, {
+    headers: {
+      'User-Agent': 'Browser'
+    }
+  })
   const mangaList = await res.json()
   return mangaList.data
 }

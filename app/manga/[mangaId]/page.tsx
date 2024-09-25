@@ -1,14 +1,22 @@
 import { Manga } from "@/app/types/manga"
 import { Chapter } from "@/app/types/chapter"
 const getManga = async (mangaId: string) => {
-  const res = await fetch(`https://api.mangadex.org/manga/${mangaId}?includes[]=cover_art`)
+  const res = await fetch(`https://api.mangadex.org/manga/${mangaId}?includes[]=cover_art`, {
+    headers: {
+      'User-Agent': 'Browser'
+    }
+  })
   const resJson = await res.json()
 
   return resJson.data
 }
 
 const getChapters = async (mangaId: string) => {
-  const res = await fetch(`https://api.mangadex.org/manga/${mangaId}/feed`)
+  const res = await fetch(`https://api.mangadex.org/manga/${mangaId}/feed`, {
+    headers: {
+      'User-Agent': 'Browser'
+    }
+  })
   const resJson = await res.json()
 
   return resJson.data
