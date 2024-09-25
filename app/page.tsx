@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link"
+
 import { Manga } from "./types/manga";
 
 const getMangaList = async (): Manga[] => {
@@ -11,35 +13,38 @@ const getMangaComponentMap = async () => {
   const mangaList = await getMangaList();
 
   return mangaList.map((manga, index) => {
-    console.log(manga.attributes)
     const coverArtRelationships = manga.relationships.find(item => item.type === 'cover_art');
     const fileName = coverArtRelationships?.attributes.fileName
     return (
-      <div
+      <Link
+        href={`/manga/${manga.id}`} 
         key={manga.id + index}
-        className='flex justify-center items-center align'
       >
         <div
-          className="basis-1/2 h-full max-h-100px"
+          className='flex justify-center items-center align'
         >
-          <img className="" src={`https://uploads.mangadex.org/covers/${manga.id}/${fileName}.256.jpg`} ></img>
-        </div>
-        <div
-          className='basis-1/2 overflow-hidden'
-        >
-          <h1
-            className="text-2xl"
+          <div
+            className="basis-1/2 h-full max-h-100px"
           >
-            {manga.attributes.title.en || Object.values(manga.attributes.title)[0]}
-          </h1>
-          <p
-            className="text-ellipsis overflow-hidden ..."
+            <img className="" src={`https://uploads.mangadex.org/covers/${manga.id}/${fileName}.256.jpg`} ></img>
+          </div>
+          <div
+            className='basis-1/2 overflow-hidden'
           >
-            {manga.attributes.description.en}
-          </p>
+            <h1
+              className="text-2xl"
+            >
+              {manga.attributes.title.en || Object.values(manga.attributes.title)[0]}
+            </h1>
+            <p
+              className="text-ellipsis overflow-hidden ..."
+            >
+              {manga.attributes.description.en}
+            </p>
 
+          </div>
         </div>
-      </div>
+      </Link>
     )
   })
 }
