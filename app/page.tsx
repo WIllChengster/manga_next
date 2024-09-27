@@ -30,7 +30,7 @@ const getMangaComponentMap = async () => {
           <div
             className="basis-1/2 h-full max-h-100px"
           >
-            <img className="" src={`https://uploads.mangadex.org/covers/${manga.id}/${fileName}.256.jpg`} ></img>
+            <img className="" src={`/api/mangadex/images/covers/${manga.id}/${fileName}.256.jpg`} ></img>
           </div>
           <div
             className='basis-1/2 overflow-hidden'

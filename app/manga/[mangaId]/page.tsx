@@ -1,5 +1,7 @@
 import { Manga } from "@/app/types/manga"
 import { Chapter } from "@/app/types/chapter"
+import Link from "next/link"
+
 const getManga = async (mangaId: string) => {
   const res = await fetch(`https://api.mangadex.org/manga/${mangaId}?includes[]=cover_art`, {
     headers: {
@@ -25,7 +27,6 @@ const getChapters = async (mangaId: string) => {
 
 const Page = async ({params}: { params: { mangaId: string } }) => {
   const mangaId = params.mangaId
-  
 
   const manga: Manga = await getManga(mangaId)
   const chapters: Chapter[] = await getChapters(mangaId)
@@ -33,21 +34,26 @@ const Page = async ({params}: { params: { mangaId: string } }) => {
   const chapterComponentMap = chapters.map((item, index) => {
     console.log(item)
     return (
-      <div
+      <Link
         key={item.id + index}
+        href={`/manga/${mangaId}/${item.id}`}
       >
-        {item.attributes.chapter} {item.attributes.title}
-      </div>
+        <div
+          className="border rounded-lg p-1 m-1"
+
+        >
+          {item.attributes.chapter} {item.attributes.title}
+        </div>
+      </Link>
     )
   })
-  
 
   const coverArtRelationships = manga.relationships.find(item => item.type === 'cover_art');
   const fileName = coverArtRelationships?.attributes.fileName
 
   return (
     <div>
-      <img src={`https://uploads.mangadex.org/covers/${manga.id}/${fileName}.256.jpg`}></img>
+      <img src={`/api/mangadex/images/covers/${manga.id}/${fileName}.256.jpg`}></img>
 
       <p className="text-2xl" >{manga.attributes.title.en || Object.values(manga.attributes.title)[0]}</p>
 
