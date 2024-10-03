@@ -32,7 +32,6 @@ const Page = async ({params}: { params: { mangaId: string } }) => {
   const chapters: Chapter[] = await getChapters(mangaId)
 
   const chapterComponentMap = chapters.map((item, index) => {
-    console.log(item)
     return (
       <Link
         key={item.id + index}

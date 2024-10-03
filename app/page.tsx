@@ -3,6 +3,14 @@ import Link from "next/link"
 
 import { Manga } from "./types/manga";
 
+const getImages = async (mangaId: string, filename: string) => {
+  const res = await fetch(`http://localhost:3000/api/mangadex/images?mangaId=${mangaId}&filename=${filename}`, {
+    cache: 'no-store'
+  })
+
+  return res
+}
+
 const getMangaList = async ()=> {
   const res = await fetch(`https://api.mangadex.org/manga?includes[]=cover_art&includes[]=manga`, {
     headers: {
@@ -15,10 +23,13 @@ const getMangaList = async ()=> {
 
 const getMangaComponentMap = async () => {
   const mangaList: Manga[] = await getMangaList();
-
-  return mangaList.map((manga, index) => {
+  return mangaList.map(async (manga, index) => {
     const coverArtRelationships = manga.relationships.find(item => item.type === 'cover_art');
-    const fileName = coverArtRelationships?.attributes.fileName
+    const filename = coverArtRelationships?.attributes.fileName
+    const {id: mangaId} = manga;
+    // const coverImageBlob = await getImages(manga.id, fileName);
+
+    // let x = await URL.createObjectURL(await coverImageBlob.blob())
     return (
       <Link
         href={`/manga/${manga.id}`} 
@@ -30,7 +41,7 @@ const getMangaComponentMap = async () => {
           <div
             className="basis-1/2 h-full max-h-100px"
           >
-            <img className="" src={`/api/mangadex/images/covers/${manga.id}/${fileName}.256.jpg`} ></img>
+            <img referrerPolicy="no-referrer" src={`https://uploads.mangadex.org/covers/${mangaId}/${filename}.256.jpg`}></img>
           </div>
           <div
             className='basis-1/2 overflow-hidden'
