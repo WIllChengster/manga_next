@@ -52,7 +52,7 @@ const Page = async ({params}: { params: { mangaId: string } }) => {
 
   return (
     <div>
-      <img src={`/api/mangadex/images/covers/${manga.id}/${fileName}.256.jpg`}></img>
+      <img referrerPolicy="no-referrer" src={`https://uploads.mangadex.org/covers/${manga.id}/${fileName}.256.jpg`}></img>
 
       <p className="text-2xl" >{manga.attributes.title.en || Object.values(manga.attributes.title)[0]}</p>
 

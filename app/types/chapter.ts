@@ -21,3 +21,26 @@ type Relationship = {
   type: string
   attributes: object
 }
+
+export type ChapterPage = {
+  result: 'ok',
+  baseUrl: string,
+  chapter: {
+    hash: string,
+    data: string[],
+    dataSaver: string[]
+  }
+}
+
+export type ChapterPageError = {
+  result: 'error',
+  errors: Error[]
+}
+
+type Error = {
+  id: string,
+  status: 404,
+  title: string,
+  detail: string,
+  context: null
+}
