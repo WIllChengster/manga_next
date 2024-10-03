@@ -3,14 +3,6 @@ import Link from "next/link"
 
 import { Manga } from "./types/manga";
 
-const getImages = async (mangaId: string, filename: string) => {
-  const res = await fetch(`http://localhost:3000/api/mangadex/images?mangaId=${mangaId}&filename=${filename}`, {
-    cache: 'no-store'
-  })
-
-  return res
-}
-
 const getMangaList = async ()=> {
   const res = await fetch(`https://api.mangadex.org/manga?includes[]=cover_art&includes[]=manga`, {
     headers: {
@@ -27,9 +19,7 @@ const getMangaComponentMap = async () => {
     const coverArtRelationships = manga.relationships.find(item => item.type === 'cover_art');
     const filename = coverArtRelationships?.attributes.fileName
     const {id: mangaId} = manga;
-    // const coverImageBlob = await getImages(manga.id, fileName);
 
-    // let x = await URL.createObjectURL(await coverImageBlob.blob())
     return (
       <Link
         href={`/manga/${manga.id}`} 
